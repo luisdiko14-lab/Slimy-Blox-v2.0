@@ -535,8 +535,13 @@ export function GameWorld() {
 
       case "rank":
         if (!checkPermission("Owner")) return addToChat("Permission Denied.", "error");
-        const rankName = args[0] as Rank;
+        let rankName = args[0] as Rank;
         const rankTarget = args[1];
+        
+        // Handle aliases for multi-word ranks
+        if (rankName.toLowerCase() === "powerowner") rankName = "Power Owner";
+        if (rankName.toLowerCase() === "realowner") rankName = "Real Owner";
+
         if (!rankName || !rankTarget) return addToChat("Usage: /rank <rank_name> <player_name> or /rank <rank_name> @everyone", "error");
 
         if (RANKS[rankName] === undefined) {
