@@ -191,7 +191,8 @@ export function GameWorld() {
         if (reason === "banned") {
           window.location.href = "/banned.html";
         } else if (reason === 'kill') {
-          setKilled(true);
+          setIsKicked(true); // Re-using isKicked state for redirection logic
+          window.location.href = "/killed.html";
         } else {
           window.location.href = "/kicked.html";
         }
