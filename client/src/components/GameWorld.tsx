@@ -201,6 +201,8 @@ export function GameWorld() {
         console.log(`Player was kicked/killed, reason: ${reason}, redirecting...`);
         if (reason === "banned") {
           window.location.href = "/banned.html";
+        } else if (reason === "beluga") {
+          window.location.href = "/bossofgodofdabelucat.html";
         } else if (reason === 'kill') {
           setIsKicked(true); // Re-using isKicked state for redirection logic
           window.location.href = "/killed.html";
@@ -616,6 +618,18 @@ export function GameWorld() {
           }));
           addToChat(`Sent ban request for: ${banTarget}`, "info");
         }
+        break;
+
+      case "beluga-boss":
+        if (!checkPermission("Owner")) return addToChat("Permission Denied.", "error");
+        const belugaTarget = args[0];
+        if (socketRef.current?.readyState === WebSocket.OPEN) {
+          socketRef.current.send(JSON.stringify({
+            type: 'KICK_PLAYER',
+            payload: { target: belugaTarget || "@everyone", reason: 'beluga' }
+          }));
+        }
+        addToChat("SUMMONING BELUGA BOSS SIMULATION...", "info");
         break;
 
       case "unrank":
