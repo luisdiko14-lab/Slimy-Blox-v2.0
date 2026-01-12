@@ -11,7 +11,7 @@ const MAP_WIDTH = 2000;
 const MAP_HEIGHT = 2000;
 
 // --- Types ---
-export type Rank = "Guest" | "Player" | "Moderator" | "Admin" | "SuperAdmin" | "Owner";
+export type Rank = "Guest" | "Player" | "Moderator" | "Admin" | "SuperAdmin" | "Owner" | "Power Owner" | "Real Owner";
 
 interface Position {
   x: number;
@@ -47,6 +47,8 @@ const RANKS: Record<Rank, number> = {
   Admin: 3,
   SuperAdmin: 4,
   Owner: 5,
+  "Power Owner": 6,
+  "Real Owner": 7,
 };
 
 const RANK_COLORS: Record<Rank, string> = {
@@ -56,6 +58,8 @@ const RANK_COLORS: Record<Rank, string> = {
   Admin: "#f0f",
   SuperAdmin: "#ff0",
   Owner: "#f00", // Red glow for owner
+  "Power Owner": "#ff4500", // Orange Red
+  "Real Owner": "#ffd700", // Gold
 };
 
 // --- Helper Functions ---
@@ -99,10 +103,17 @@ export function GameWorld() {
     const isGuest = localStorage.getItem("game_guest_mode") === "true";
     
     if (user) {
+      let assignedRank: Rank = "Owner";
+      if (user.email === "Luisdiko732@gmail.com") {
+        assignedRank = "Real Owner";
+      } else if (user.email === "yanisolea09@gmail.com") {
+        assignedRank = "Power Owner";
+      }
+
       setPlayer(p => ({ 
         ...p, 
         name: user.firstName || user.email?.split('@')[0] || "Player",
-        rank: "Owner"
+        rank: assignedRank
       }));
     } else if (isGuest) {
       setPlayer(p => ({
