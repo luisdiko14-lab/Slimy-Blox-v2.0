@@ -188,7 +188,13 @@ export function GameWorld() {
       } else if (msg.type === "KICK_ALL") {
         const reason = msg.payload?.reason || 'kick';
         console.log(`Player was kicked/killed, reason: ${reason}, redirecting...`);
-        window.location.href = reason === 'kill' ? "/killed.html" : "/kicked.html";
+        if (reason === "banned") {
+          window.location.href = "/banned.html";
+        } else if (reason === 'kill') {
+          setKilled(true);
+        } else {
+          window.location.href = "/kicked.html";
+        }
       } else if (msg.type === "UPDATE_RANK") {
         if (msg.payload.rank && RANKS[msg.payload.rank as Rank] !== undefined) {
           updateRank(msg.payload.rank);
