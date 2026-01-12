@@ -16,7 +16,7 @@ export async function registerRoutes(
   const wss = new WebSocketServer({ server: httpServer, path: "/ws" });
 
   const clients = new Map<string, { ws: WebSocket; state: any }>();
-  const bannedNames = new Set<string>();
+  const bannedPlayers = new Map<string, number>();
 
   wss.on("connection", (ws) => {
     let playerId: string | null = null;
@@ -29,10 +29,15 @@ export async function registerRoutes(
           playerId = message.payload.id;
           playerName = message.payload.name;
 
-          if (playerName && bannedNames.has(playerName.toLowerCase())) {
-            ws.send(JSON.stringify({ type: "KICK_ALL", payload: { reason: "banned" } }));
-            ws.close();
-            return;
+          if (playerName) {
+            const banExpiry = bannedPlayers.get(playerName.toLowerCase());
+            if (banExpiry && Date.now() < banExpiry) {
+              ws.send(JSON.stringify({ type: "KICK_ALL", payload: { reason: "banned" } }));
+              ws.close();
+              return;
+            } else if (banExpiry) {
+              bannedPlayers.delete(playerName.toLowerCase());
+            }
           }
 
           clients.set(playerId!, { ws, state: message.payload });
@@ -127,10 +132,11 @@ export async function registerRoutes(
         } else if (message.type === "BAN_PLAYER") {
           const target = message.payload.target;
           const banMsg = JSON.stringify({ type: "KICK_ALL", payload: { reason: "banned" } });
+          const expiry = Date.now() + 60000; // 1 minute from now
 
           if (target === "@everyone") {
             clients.forEach((c) => {
-              bannedNames.add(c.state.name.toLowerCase());
+              bannedPlayers.set(c.state.name.toLowerCase(), expiry);
             });
             wss.clients.forEach((client) => {
               if (client.readyState === WebSocket.OPEN) {
@@ -139,7 +145,7 @@ export async function registerRoutes(
             });
           } else {
             const targetLower = target.toLowerCase();
-            bannedNames.add(targetLower);
+            bannedPlayers.set(targetLower, expiry);
             clients.forEach((c) => {
               if (c.state.name.toLowerCase() === targetLower) {
                 if (c.ws.readyState === WebSocket.OPEN) {
