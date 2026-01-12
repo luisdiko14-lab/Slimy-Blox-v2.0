@@ -581,6 +581,20 @@ export function GameWorld() {
         addToChat(`Revived ${reviveTarget}.`, "info");
         break;
 
+      case "ban":
+        if (!checkPermission("Owner")) return addToChat("Permission Denied.", "error");
+        const banTarget = args[0];
+        if (!banTarget) return addToChat("Usage: /ban <player_name> or /ban @everyone", "error");
+
+        if (socketRef.current?.readyState === WebSocket.OPEN) {
+          socketRef.current.send(JSON.stringify({
+            type: 'BAN_PLAYER',
+            payload: { target: banTarget }
+          }));
+          addToChat(`Sent ban request for: ${banTarget}`, "info");
+        }
+        break;
+
       case "unrank":
         if (!checkPermission("Owner")) return addToChat("Permission Denied.", "error");
         const unrankTarget = args[0];
