@@ -1,0 +1,95 @@
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&family=Space+Grotesk:wght@400;500;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  /* Retro Arcade / Cyberpunk Palette */
+  --background: 240 20% 10%;
+  --foreground: 160 100% 50%; /* Terminal Green */
+  
+  --primary: 300 100% 50%; /* Neon Pink */
+  --primary-foreground: 240 20% 10%;
+  
+  --secondary: 190 100% 50%; /* Cyan */
+  --secondary-foreground: 240 20% 10%;
+  
+  --muted: 240 15% 15%;
+  --muted-foreground: 160 40% 40%;
+  
+  --accent: 45 100% 50%; /* Gold/Yellow */
+  --accent-foreground: 240 20% 10%;
+  
+  --destructive: 0 100% 50%; /* Red */
+  --border: 160 30% 20%;
+  
+  --radius: 0px; /* Sharp corners for retro feel */
+  
+  --font-pixel: 'Press Start 2P', cursive;
+  --font-terminal: 'VT323', monospace;
+  --font-body: 'Space Grotesk', sans-serif;
+}
+
+@layer base {
+  body {
+    @apply bg-background text-foreground overflow-hidden selection:bg-primary selection:text-primary-foreground;
+    font-family: var(--font-terminal);
+    font-size: 18px;
+    background-image: 
+      linear-gradient(rgba(0, 255, 128, 0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(0, 255, 128, 0.03) 1px, transparent 1px);
+    background-size: 40px 40px;
+  }
+  
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-pixel);
+    @apply uppercase tracking-widest text-primary drop-shadow-[2px_2px_0px_rgba(0,0,0,0.5)];
+  }
+
+  /* Custom Scrollbar */
+  ::-webkit-scrollbar {
+    width: 10px;
+    background: #111;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: hsl(var(--primary));
+    border: 2px solid #111;
+  }
+}
+
+@layer utilities {
+  .text-glow {
+    text-shadow: 0 0 10px currentColor;
+  }
+  
+  .box-glow {
+    box-shadow: 0 0 15px -3px currentColor;
+  }
+  
+  .pixel-border {
+    box-shadow: 
+      -2px 0 0 0 currentColor,
+      2px 0 0 0 currentColor,
+      0 -2px 0 0 currentColor,
+      0 2px 0 0 currentColor;
+    margin: 2px;
+  }
+
+  .scanline {
+    background: linear-gradient(
+      to bottom,
+      rgba(255,255,255,0),
+      rgba(255,255,255,0) 50%,
+      rgba(0,0,0,0.1) 50%,
+      rgba(0,0,0,0.1)
+    );
+    background-size: 100% 4px;
+    pointer-events: none;
+  }
+  
+  .retro-container {
+    @apply border-2 border-primary bg-background/90 backdrop-blur-sm p-4;
+    box-shadow: 4px 4px 0px 0px hsl(var(--primary)/0.5);
+  }
+}
