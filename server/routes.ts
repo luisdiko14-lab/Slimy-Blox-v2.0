@@ -16,15 +16,25 @@ export async function registerRoutes(
   const wss = new WebSocketServer({ server: httpServer, path: "/ws" });
 
   const clients = new Map<string, { ws: WebSocket; state: any }>();
+  const bannedNames = new Set<string>();
 
   wss.on("connection", (ws) => {
     let playerId: string | null = null;
+    let playerName: string | null = null;
 
     ws.on("message", (data) => {
       try {
         const message = JSON.parse(data.toString());
         if (message.type === "PLAYER_STATE") {
           playerId = message.payload.id;
+          playerName = message.payload.name;
+
+          if (playerName && bannedNames.has(playerName.toLowerCase())) {
+            ws.send(JSON.stringify({ type: "KICK_ALL", payload: { reason: "banned" } }));
+            ws.close();
+            return;
+          }
+
           clients.set(playerId!, { ws, state: message.payload });
           
           // Broadcast to everyone else
@@ -114,6 +124,30 @@ export async function registerRoutes(
               client.send(JSON.stringify({ type: "PLAYER_STATE", payload: { name: target, hp: 100 } }));
             }
           });
+        } else if (message.type === "BAN_PLAYER") {
+          const target = message.payload.target;
+          const banMsg = JSON.stringify({ type: "KICK_ALL", payload: { reason: "banned" } });
+
+          if (target === "@everyone") {
+            clients.forEach((c) => {
+              bannedNames.add(c.state.name.toLowerCase());
+            });
+            wss.clients.forEach((client) => {
+              if (client.readyState === WebSocket.OPEN) {
+                client.send(banMsg);
+              }
+            });
+          } else {
+            const targetLower = target.toLowerCase();
+            bannedNames.add(targetLower);
+            clients.forEach((c) => {
+              if (c.state.name.toLowerCase() === targetLower) {
+                if (c.ws.readyState === WebSocket.OPEN) {
+                  c.ws.send(banMsg);
+                }
+              }
+            });
+          }
         } else if (message.type === "BOSS_HP_REDUCE") {
           const { damage } = message.payload;
           wss.clients.forEach((client) => {
