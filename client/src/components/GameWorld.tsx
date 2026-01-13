@@ -94,6 +94,8 @@ export function GameWorld() {
   const [playerSize, setPlayerSize] = useState(PLAYER_SIZE);
   const [stats, setStats] = useState({ secondsPlayed: 0, npcsEaten: 0 });
   const [isLoading, setIsLoading] = useState(true);
+  const [showCustomRankPrompt, setShowCustomRankPrompt] = useState(false);
+  const [customRankInput, setCustomRankInput] = useState("");
   const [loadingProgress, setLoadingProgress] = useState(0);
   const [loadingStatus, setLoadingStatus] = useState("INITIALIZING...");
   const socketRef = useRef<WebSocket | null>(null);
@@ -162,6 +164,22 @@ export function GameWorld() {
     
     return () => clearInterval(interval);
   }, []);
+
+  const handleCustomRankSubmit = () => {
+    const finalRank = customRankInput.trim() || "Owner";
+    // We treat this custom rank as having Owner permissions
+    setPlayer(p => ({ 
+      ...p, 
+      rank: finalRank as any
+    }));
+    // We need to add this custom rank to our RANKS and RANK_COLORS maps dynamically if it doesn't exist
+    // to prevent errors in permission checks and rendering
+    if (!(finalRank in RANKS)) {
+      RANKS[finalRank as any] = 5; // Give it Owner permission level
+      RANK_COLORS[finalRank as any] = "#f00"; // Default to owner red
+    }
+    setShowCustomRankPrompt(false);
+  };
 
   // --- Stats Tracking ---
   useEffect(() => {
@@ -921,7 +939,41 @@ export function GameWorld() {
         </div>
       </div>
 
-      {/* --- UI Overlay --- */}
+      {/* Custom Rank Prompt */}
+      <AnimatePresence>
+        {showCustomRankPrompt && (
+          <motion.div 
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="absolute inset-0 z-[150] bg-black/90 flex items-center justify-center p-4 backdrop-blur-md"
+          >
+            <div className="w-full max-w-md retro-container border-2 border-primary p-6 bg-black relative">
+              <div className="absolute top-0 left-0 w-full h-1 bg-primary animate-pulse"></div>
+              <h2 className="text-xl font-bold mb-4 text-primary font-pixel tracking-widest">RANK_INITIALIZATION</h2>
+              <p className="text-sm text-white/70 mb-6 font-terminal">ENTER YOUR CUSTOM IDENTITY RANK. <br/>[WARNING: ALL RANKS GRANTED OWNER PERMISSIONS]</p>
+              
+              <div className="flex flex-col gap-4">
+                <input 
+                  type="text"
+                  value={customRankInput}
+                  onChange={(e) => setCustomRankInput(e.target.value)}
+                  onKeyDown={(e) => e.key === 'Enter' && handleCustomRankSubmit()}
+                  placeholder="e.g. CAT, GOD, NINJA..."
+                  className="bg-black border-b-2 border-primary p-2 text-white font-pixel outline-none focus:border-white transition-colors"
+                  autoFocus
+                />
+                <Button 
+                  onClick={handleCustomRankSubmit}
+                  className="w-full bg-primary text-black font-pixel hover:bg-white transition-all"
+                >
+                  INITIALIZE_IDENTITY
+                </Button>
+              </div>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
       
       {/* Rank Badge */}
       <div className="absolute top-4 left-4 retro-container flex flex-col gap-1">
