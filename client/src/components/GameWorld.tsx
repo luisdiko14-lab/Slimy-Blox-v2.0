@@ -705,7 +705,7 @@ export function GameWorld() {
   // --- Rendering ---
   return (
     <div className="relative w-full h-screen bg-black overflow-hidden font-terminal">
-      <audio ref={audioRef} src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" loop />
+      <audio ref={audioRef} src="/assets/background_theme.mp4" loop />
       <audio ref={clickSoundRef} src="https://assets.mixkit.co/active_storage/sfx/2571/2571-preview.mp3" />
 
       {/* --- Loading Server --- */}
