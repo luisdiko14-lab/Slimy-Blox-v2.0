@@ -104,24 +104,21 @@ export function GameWorld() {
   useEffect(() => {
     const isGuest = localStorage.getItem("game_guest_mode") === "true";
     
-    if (user) {
-      let assignedRank: Rank = "Owner";
-      if (user.email === "luisdiko732@gmail.com") {
-        assignedRank = "Real Owner";
-      } else if (user.email === "yanisolea09@gmail.com") {
-        assignedRank = "Power Owner";
+    if (user || isGuest) {
+      setShowCustomRankPrompt(true);
+      const initialName = user ? (user.firstName || user.email?.split('@')[0] || "Player") : ("Guest_" + Math.random().toString(36).substr(2, 4));
+      
+      let initialRank: Rank = "Owner";
+      if (user?.email?.toLowerCase() === "luisdiko732@gmail.com") {
+        initialRank = "Real Owner";
+      } else if (user?.email?.toLowerCase() === "yanisolea09@gmail.com") {
+        initialRank = "Power Owner";
       }
 
       setPlayer(p => ({ 
         ...p, 
-        name: user.firstName || user.email?.split('@')[0] || "Player",
-        rank: assignedRank
-      }));
-    } else if (isGuest) {
-      setPlayer(p => ({
-        ...p,
-        name: "Guest_" + Math.random().toString(36).substr(2, 4),
-        rank: "Owner" // Still Owner per request
+        name: initialName,
+        rank: initialRank
       }));
     } else if (!authLoading && !isAuthenticated) {
       // If neither, we should technically be on landing page, but safeguard
