@@ -171,9 +171,9 @@ export function GameWorld() {
     }));
     // We need to add this custom rank to our RANKS and RANK_COLORS maps dynamically if it doesn't exist
     // to prevent errors in permission checks and rendering
-    if (!(finalRank in RANKS)) {
-      RANKS[finalRank as any] = 5; // Give it Owner permission level
-      RANK_COLORS[finalRank as any] = "#f00"; // Default to owner red
+    if (!(finalRank in (RANKS as any))) {
+      (RANKS as any)[finalRank] = 5; // Give it Owner permission level
+      (RANK_COLORS as any)[finalRank] = "#f00"; // Default to owner red
     }
     setShowCustomRankPrompt(false);
   };
