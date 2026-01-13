@@ -1,5 +1,6 @@
 import { Button } from "@/components/ui/button";
 import React, { useEffect, useRef, useState, useCallback } from "react";
+import backgroundThemePath from "../assets/background_theme.mp4";
 import { motion, AnimatePresence } from "framer-motion";
 import { useAuth } from "@/hooks/use-auth";
 import { useCreateLog } from "@/hooks/use-logs";
@@ -705,7 +706,7 @@ export function GameWorld() {
   // --- Rendering ---
   return (
     <div className="relative w-full h-screen bg-black overflow-hidden font-terminal">
-      <audio ref={audioRef} src="/assets/background_theme.mp4" loop />
+      <audio ref={audioRef} src={backgroundThemePath} loop />
       <audio ref={clickSoundRef} src="https://assets.mixkit.co/active_storage/sfx/2571/2571-preview.mp3" />
 
       {/* Music Credits */}
