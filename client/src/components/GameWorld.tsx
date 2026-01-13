@@ -708,6 +708,13 @@ export function GameWorld() {
       <audio ref={audioRef} src="/assets/background_theme.mp4" loop />
       <audio ref={clickSoundRef} src="https://assets.mixkit.co/active_storage/sfx/2571/2571-preview.mp3" />
 
+      {/* Music Credits */}
+      <div className="absolute bottom-4 left-4 z-50 pointer-events-none opacity-50 hover:opacity-100 transition-opacity">
+        <p className="text-[10px] font-pixel text-primary/80 uppercase tracking-tighter">
+          Music: NoCallerId (YouTube)
+        </p>
+      </div>
+
       {/* --- Loading Server --- */}
       <AnimatePresence>
         {isLoading && (
