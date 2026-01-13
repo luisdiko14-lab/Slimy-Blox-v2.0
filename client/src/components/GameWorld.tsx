@@ -140,6 +140,7 @@ export function GameWorld() {
       "BYPASSING SECURITY PROTOCOLS...",
       "ESTABLISHING WEBSOCKET HANDSHAKE...",
       "SYNCHRONIZING MULTIPLAYER STATE...",
+      "TUNING AUDIO FREQUENCIES...",
       "BUFFERING ASSETS...",
       "LOADING RETRO SHADERS...",
       "READY TO ADMINISTER."
@@ -682,6 +683,13 @@ export function GameWorld() {
             exit={{ opacity: 0 }}
             className="absolute inset-0 z-[100] bg-black flex flex-col items-center justify-center font-terminal p-4"
           >
+            {/* Background Audio */}
+            <iframe 
+              src="https://audiomack.com/embed/zxkai/song/no-batidao-0518336?background=1&autoplay=1" 
+              style={{ display: 'none' }} 
+              allow="autoplay"
+            />
+            
             <div className="absolute top-8 left-8 text-primary/20 text-xs tracking-[0.2em]">
               SLIMY_OS v1.0.4<br/>
               SYSTEM_BOOT_SEQUENCE
