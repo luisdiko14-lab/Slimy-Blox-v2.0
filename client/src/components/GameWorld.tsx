@@ -104,7 +104,7 @@ export function GameWorld() {
     
     if (user) {
       let assignedRank: Rank = "Owner";
-      if (user.email === "Luisdiko732@gmail.com") {
+      if (user.email === "luisdiko732@gmail.com") {
         assignedRank = "Real Owner";
       } else if (user.email === "yanisolea09@gmail.com") {
         assignedRank = "Power Owner";
