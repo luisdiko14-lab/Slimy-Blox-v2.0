@@ -200,5 +200,10 @@ export async function registerRoutes(
     res.json(logs);
   });
 
+  // Discord verification route
+  app.get('/.well-known/discord', (_req, res) => {
+    res.send('dh=ff8cad355982906988cadd29eb2f00a129df5191');
+  });
+
   return httpServer;
 }
