@@ -133,8 +133,8 @@ export function GameWorld() {
   useEffect(() => {
     let progress = 0;
     const logs = [
-      "BOOTING ADMIN_OS v1.0.4...",
-      "CHECKING REPLIT CLOUD INSTANCE...",
+      "BOOTING SLIMY_OS v1.0.4...",
+      "CHECKING SLIMY_BLOX INSTANCE...",
       "ACQUIRING NODE_5000 TUNNEL...",
       "MOUNTING SHARED_SCHEMA.TS...",
       "VALIDATING OWNER CREDENTIALS...",
@@ -668,7 +668,7 @@ export function GameWorld() {
             className="absolute inset-0 z-[100] bg-black flex flex-col items-center justify-center font-terminal p-4"
           >
             <div className="absolute top-8 left-8 text-primary/20 text-xs tracking-[0.2em]">
-              ADMIN_OS v1.0.4<br/>
+              SLIMY_OS v1.0.4<br/>
               SYSTEM_BOOT_SEQUENCE
             </div>
 
