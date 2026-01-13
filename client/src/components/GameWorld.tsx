@@ -684,10 +684,10 @@ export function GameWorld() {
             className="absolute inset-0 z-[100] bg-black flex flex-col items-center justify-center font-terminal p-4"
           >
             {/* Background Audio */}
-            <iframe 
-              src="https://audiomack.com/embed/zxkai/song/no-batidao-0518336?background=1&autoplay=1" 
-              style={{ display: 'none' }} 
-              allow="autoplay"
+            <audio 
+              src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" 
+              autoPlay 
+              loop 
             />
             
             <div className="absolute top-8 left-8 text-primary/20 text-xs tracking-[0.2em]">
