@@ -100,6 +100,7 @@ export function GameWorld() {
   const [loadingStatus, setLoadingStatus] = useState("INITIALIZING...");
   const [audioEnabled, setAudioEnabled] = useState(false);
   const audioRef = useRef<HTMLAudioElement>(null);
+  const clickSoundRef = useRef<HTMLAudioElement>(null);
   const socketRef = useRef<WebSocket | null>(null);
 
   // --- Auth & Initial Rank ---
@@ -165,9 +166,18 @@ export function GameWorld() {
     return () => clearInterval(interval);
   }, []);
 
+  const playClickSound = useCallback(() => {
+    if (clickSoundRef.current) {
+      clickSoundRef.current.currentTime = 0;
+      clickSoundRef.current.play().catch(() => {});
+    }
+  }, []);
+
   const handleCustomRankSubmit = () => {
     const finalRank = customRankInput.trim() || "Owner";
     
+    playClickSound();
+
     // Enable audio on first user interaction
     if (audioRef.current) {
       audioRef.current.play().then(() => {
@@ -427,6 +437,8 @@ export function GameWorld() {
       return;
     }
 
+    playClickSound();
+
     // Enable audio on user interaction if not yet enabled
     if (!audioEnabled && audioRef.current) {
       audioRef.current.play().then(() => {
@@ -458,6 +470,7 @@ export function GameWorld() {
   };
 
   const executeCommand = (cmd: string, args: string[]) => {
+    playClickSound();
     // Log ALL commands to backend
     logCommand({ 
       command: cmd, 
@@ -692,6 +705,9 @@ export function GameWorld() {
   // --- Rendering ---
   return (
     <div className="relative w-full h-screen bg-black overflow-hidden font-terminal">
+      <audio ref={audioRef} src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" loop />
+      <audio ref={clickSoundRef} src="https://assets.mixkit.co/active_storage/sfx/2571/2571-preview.mp3" />
+
       {/* --- Loading Server --- */}
       <AnimatePresence>
         {isLoading && (
@@ -700,13 +716,6 @@ export function GameWorld() {
             exit={{ opacity: 0 }}
             className="absolute inset-0 z-[100] bg-black flex flex-col items-center justify-center font-terminal p-4"
           >
-            {/* Background Audio */}
-            <audio 
-              ref={audioRef}
-              src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" 
-              loop 
-            />
-            
             <div className="absolute top-8 left-8 text-primary/20 text-xs tracking-[0.2em]">
               SLIMY_OS v1.0.4<br/>
               SYSTEM_BOOT_SEQUENCE
