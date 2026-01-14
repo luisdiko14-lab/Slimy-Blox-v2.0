@@ -150,20 +150,31 @@ export function GameWorld() {
     ];
 
     const interval = setInterval(() => {
-      progress += Math.random() * 4;
+      progress += Math.random() * 15; // Faster loading
       if (progress >= 100) {
         progress = 100;
         clearInterval(interval);
-        setTimeout(() => setIsLoading(false), 800);
+        setIsLoading(false);
       }
       setLoadingProgress(Math.floor(progress));
       
       const logIdx = Math.floor((progress / 100) * logs.length);
       setLoadingStatus(logs[Math.min(logIdx, logs.length - 1)]);
       setLoadingLogs(logs.slice(0, logIdx + 1));
-    }, 120);
+    }, 80);
+
+    const handleSkip = () => {
+      clearInterval(interval);
+      setIsLoading(false);
+    };
+    window.addEventListener("keydown", handleSkip);
+    window.addEventListener("mousedown", handleSkip);
     
-    return () => clearInterval(interval);
+    return () => {
+      clearInterval(interval);
+      window.removeEventListener("keydown", handleSkip);
+      window.removeEventListener("mousedown", handleSkip);
+    };
   }, []);
 
   const playClickSound = useCallback(() => {
@@ -765,6 +776,16 @@ export function GameWorld() {
                   <span>0x000F4240</span>
                 </div>
               </div>
+
+              {/* Force Skip Button for UX */}
+              {loadingProgress > 10 && (
+                <button 
+                  onClick={() => setIsLoading(false)}
+                  className="mt-6 w-full text-[10px] text-primary/30 hover:text-primary transition-colors uppercase font-pixel cursor-pointer"
+                >
+                  Click to Force Boot
+                </button>
+              )}
             </div>
 
             <div className="mt-8 text-primary/30 text-[10px] tracking-widest animate-pulse">
