@@ -99,6 +99,9 @@ export function GameWorld() {
   const [customRankInput, setCustomRankInput] = useState("");
   const [loadingProgress, setLoadingProgress] = useState(0);
   const [loadingStatus, setLoadingStatus] = useState("INITIALIZING...");
+  const [audioEnabled, setAudioEnabled] = useState(false);
+  const audioRef = useRef<HTMLAudioElement>(null);
+  const clickSoundRef = useRef<HTMLAudioElement>(null);
   const socketRef = useRef<WebSocket | null>(null);
 
   // --- Auth & Initial Rank ---
@@ -165,11 +168,24 @@ export function GameWorld() {
   }, []);
 
   const playClickSound = useCallback(() => {
+    if (clickSoundRef.current) {
+      clickSoundRef.current.currentTime = 0;
+      clickSoundRef.current.play().catch(() => {});
+    }
   }, []);
 
   const handleCustomRankSubmit = () => {
     const finalRank = customRankInput.trim() || "Owner";
     
+    playClickSound();
+
+    // Enable audio on first user interaction
+    if (audioRef.current) {
+      audioRef.current.play().then(() => {
+        setAudioEnabled(true);
+      }).catch(e => console.log("Audio play failed:", e));
+    }
+
     // We treat this custom rank as having Owner permissions
     setPlayer(p => ({ 
       ...p, 
@@ -422,6 +438,15 @@ export function GameWorld() {
       return;
     }
 
+    playClickSound();
+
+    // Enable audio on user interaction if not yet enabled
+    if (!audioEnabled && audioRef.current) {
+      audioRef.current.play().then(() => {
+        setAudioEnabled(true);
+      }).catch(e => console.log("Audio play failed:", e));
+    }
+
     const rawCommand = chatInput.trim();
     setChatInput("");
     setChatOpen(false);
@@ -446,6 +471,7 @@ export function GameWorld() {
   };
 
   const executeCommand = (cmd: string, args: string[]) => {
+    playClickSound();
     // Log ALL commands to backend
     logCommand({ 
       command: cmd, 
@@ -680,6 +706,8 @@ export function GameWorld() {
   // --- Rendering ---
   return (
     <div className="relative w-full h-screen bg-black overflow-hidden font-terminal">
+      <audio ref={audioRef} src="/attached_assets/ScreenRecording_01-14-2026_12-51-10_1_1768391543094.mp4" loop />
+      <audio ref={clickSoundRef} src="https://assets.mixkit.co/active_storage/sfx/2571/2571-preview.mp3" />
 
       {/* --- Loading Server --- */}
       <AnimatePresence>
@@ -1194,6 +1222,28 @@ export function GameWorld() {
            onTouchEnd={() => setKeysPressed(prev => { const n = new Set(prev); n.delete("ArrowRight"); return n; })}
          >▶</button>
       </div>
+      <AnimatePresence>
+        {!audioEnabled && !isLoading && (
+          <motion.div 
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="absolute bottom-4 right-4 z-[200]"
+          >
+            <Button 
+              onClick={() => {
+                if (audioRef.current) {
+                  audioRef.current.play().then(() => setAudioEnabled(true));
+                }
+              }}
+              variant="outline"
+              className="bg-black/50 border-primary text-primary font-pixel text-xs animate-pulse"
+            >
+              ENABLE_AUDIO_SYSTEM
+            </Button>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }
