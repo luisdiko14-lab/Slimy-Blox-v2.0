@@ -1183,39 +1183,17 @@ export function GameWorld() {
            onTouchStart={() => setKeysPressed(prev => new Set(prev).add("ArrowLeft"))}
            onTouchEnd={() => setKeysPressed(prev => { const n = new Set(prev); n.delete("ArrowLeft"); return n; })}
          >◀</button>
-          <button 
+         <button 
            className="w-12 h-12 bg-white/20 rounded active:bg-white/40 border border-white/30"
            onTouchStart={() => setKeysPressed(prev => new Set(prev).add("ArrowDown"))}
            onTouchEnd={() => setKeysPressed(prev => { const n = new Set(prev); n.delete("ArrowDown"); return n; })}
          >▼</button>
-          <button 
+         <button 
            className="w-12 h-12 bg-white/20 rounded active:bg-white/40 border border-white/30"
            onTouchStart={() => setKeysPressed(prev => new Set(prev).add("ArrowRight"))}
            onTouchEnd={() => setKeysPressed(prev => { const n = new Set(prev); n.delete("ArrowRight"); return n; })}
          >▶</button>
       </div>
-      <AnimatePresence>
-        {!audioEnabled && !isLoading && (
-          <motion.div 
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            className="absolute bottom-4 right-4 z-[200]"
-          >
-            <Button 
-              onClick={() => {
-                if (audioRef.current) {
-                  audioRef.current.play().then(() => setAudioEnabled(true));
-                }
-              }}
-              variant="outline"
-              className="bg-black/50 border-primary text-primary font-pixel text-xs animate-pulse"
-            >
-              ENABLE_AUDIO_SYSTEM
-            </Button>
-          </motion.div>
-        )}
-      </AnimatePresence>
     </div>
   );
 }

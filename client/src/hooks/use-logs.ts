@@ -1,5 +1,6 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { api, type InsertCommandLog } from "@shared/routes";
+import { api } from "@shared/routes";
+import { type InsertCommandLog } from "@shared/schema";
 
 export function useCreateLog() {
   const queryClient = useQueryClient();
