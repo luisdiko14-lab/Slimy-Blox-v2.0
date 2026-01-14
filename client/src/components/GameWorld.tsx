@@ -99,9 +99,6 @@ export function GameWorld() {
   const [customRankInput, setCustomRankInput] = useState("");
   const [loadingProgress, setLoadingProgress] = useState(0);
   const [loadingStatus, setLoadingStatus] = useState("INITIALIZING...");
-  const [audioEnabled, setAudioEnabled] = useState(false);
-  const audioRef = useRef<HTMLAudioElement>(null);
-  const clickSoundRef = useRef<HTMLAudioElement>(null);
   const socketRef = useRef<WebSocket | null>(null);
 
   // --- Auth & Initial Rank ---
@@ -168,24 +165,11 @@ export function GameWorld() {
   }, []);
 
   const playClickSound = useCallback(() => {
-    if (clickSoundRef.current) {
-      clickSoundRef.current.currentTime = 0;
-      clickSoundRef.current.play().catch(() => {});
-    }
   }, []);
 
   const handleCustomRankSubmit = () => {
     const finalRank = customRankInput.trim() || "Owner";
     
-    playClickSound();
-
-    // Enable audio on first user interaction
-    if (audioRef.current) {
-      audioRef.current.play().then(() => {
-        setAudioEnabled(true);
-      }).catch(e => console.log("Audio play failed:", e));
-    }
-
     // We treat this custom rank as having Owner permissions
     setPlayer(p => ({ 
       ...p, 
@@ -438,15 +422,6 @@ export function GameWorld() {
       return;
     }
 
-    playClickSound();
-
-    // Enable audio on user interaction if not yet enabled
-    if (!audioEnabled && audioRef.current) {
-      audioRef.current.play().then(() => {
-        setAudioEnabled(true);
-      }).catch(e => console.log("Audio play failed:", e));
-    }
-
     const rawCommand = chatInput.trim();
     setChatInput("");
     setChatOpen(false);
@@ -471,7 +446,6 @@ export function GameWorld() {
   };
 
   const executeCommand = (cmd: string, args: string[]) => {
-    playClickSound();
     // Log ALL commands to backend
     logCommand({ 
       command: cmd, 
@@ -706,15 +680,6 @@ export function GameWorld() {
   // --- Rendering ---
   return (
     <div className="relative w-full h-screen bg-black overflow-hidden font-terminal">
-      <audio ref={audioRef} src={backgroundThemePath} loop />
-      <audio ref={clickSoundRef} src="https://assets.mixkit.co/active_storage/sfx/2571/2571-preview.mp3" />
-
-      {/* Music Credits */}
-      <div className="absolute bottom-4 left-4 z-50 pointer-events-none opacity-50 hover:opacity-100 transition-opacity">
-        <p className="text-[10px] font-pixel text-primary/80 uppercase tracking-tighter">
-          Music: NoCallerId (YouTube)
-        </p>
-      </div>
 
       {/* --- Loading Server --- */}
       <AnimatePresence>
