@@ -22,7 +22,7 @@ export function useCreateLog() {
     // We don't necessarily need to invalidate queries if we aren't showing the logs in UI
     // but good practice if we ever add a log viewer
     onSuccess: () => {
-      // queryClient.invalidateQueries({ queryKey: [api.logs.list.path] });
+      queryClient.invalidateQueries({ queryKey: [api.logs.list.path] });
     }
   });
 }

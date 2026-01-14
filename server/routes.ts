@@ -162,7 +162,9 @@ export async function registerRoutes(
             }
           });
         }
-      } catch (e) {}
+      } catch (e) {
+        console.error("WebSocket message processing error:", e);
+      }
     });
 
     ws.on("close", () => {

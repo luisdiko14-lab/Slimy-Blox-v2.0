@@ -514,7 +514,7 @@ export function GameWorld() {
       case "speed":
         if (!checkPermission("Admin")) return addToChat("Permission Denied.", "error");
         const val = parseInt(args[0]);
-        if (isNaN(val)) return addToChat("Usage: /speed <number>", "error");
+        if (isNaN(val) || val <= 0 || val > 100) return addToChat("Usage: /speed <1-100>", "error");
         setGameSpeed(val);
         addToChat(`Speed set to ${val}`, "info");
         break;
@@ -522,7 +522,7 @@ export function GameWorld() {
       case "size":
         if (!checkPermission("Admin")) return addToChat("Permission Denied.", "error");
         const sVal = parseInt(args[0]);
-        if (isNaN(sVal)) return addToChat("Usage: /size <number>", "error");
+        if (isNaN(sVal) || sVal <= 0 || sVal > 500) return addToChat("Usage: /size <1-500>", "error");
         setPlayerSize(sVal);
         addToChat(`Size set to ${sVal}`, "info");
         break;
