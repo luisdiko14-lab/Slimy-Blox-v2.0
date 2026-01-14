@@ -706,7 +706,13 @@ export function GameWorld() {
   // --- Rendering ---
   return (
     <div className="relative w-full h-screen bg-black overflow-hidden font-terminal">
-      <audio ref={audioRef} src="/attached_assets/ScreenRecording_01-14-2026_12-51-10_1_1768391543094.mp4" loop />
+      <video
+        ref={audioRef as any}
+        src="/attached_assets/ScreenRecording_01-14-2026_12-51-10_1_1768391543094.mp4"
+        loop
+        muted={!audioEnabled}
+        className="hidden"
+      />
       <audio ref={clickSoundRef} src="https://assets.mixkit.co/active_storage/sfx/2571/2571-preview.mp3" />
 
       {/* --- Loading Server --- */}
