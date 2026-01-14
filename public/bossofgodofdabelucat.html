@@ -126,7 +126,6 @@
 </head>
 <body>
     <div class="scanlines"></div>
-    <audio id="bg-music" src="/assets/background_theme.mp4" loop></audio>
     
     <div class="retro-container" id="game-container">
         <div class="boss-name">BELUGA: GOD OF DABELUCAT</div>
@@ -146,7 +145,6 @@
 
         <div id="message">CLICK TO ATTACK!</div>
         <div style="margin-top: 1rem; color: #555;">(HINT: 1250 CLICKS TO VANQUISH)</div>
-        <button id="start-btn" onclick="startAudio()" style="background: #0ff; color: #000; padding: 0.5rem 1rem; border: none; font-family: inherit; font-weight: bold; cursor: pointer; margin-top: 1rem; box-shadow: 0 0 10px #0ff;">ENABLE BOSS MUSIC</button>
     </div>
 
     <div class="win-screen" id="win-screen">
@@ -161,23 +159,13 @@
         const hpVal = document.getElementById('hp-val');
         const message = document.getElementById('message');
         const winScreen = document.getElementById('win-screen');
-        const bgMusic = document.getElementById('bg-music');
-        const startBtn = document.getElementById('start-btn');
-
-        function startAudio() {
-            bgMusic.play();
-            startBtn.style.display = 'none';
-        }
 
         function hit() {
             if (hp <= 0) return;
             
-            // Try to play if not already playing (handles first click interaction)
-            if (bgMusic.paused) bgMusic.play().catch(() => {});
-            
             hp -= 1;
-            hpBar.style.width = (hp / 12.5) + '%';
-            hpVal.innerText = Math.max(0, hp);
+            hpBar.style.width = hp + '%';
+            hpVal.innerText = Math.max(2, hp);
             
             // Random combat messages
             const msgs = ["CRITICAL HIT!", "DIRECT STRIKE!", "DABELUCAT RECOILS!", "GLITCH ATTACK!"];
