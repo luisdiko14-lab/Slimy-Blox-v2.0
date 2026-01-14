@@ -132,7 +132,7 @@
         
         <div class="hp-bar-container">
             <div id="hp-bar"></div>
-            <div class="hp-text"><span id="hp-val">100</span> / 100</div>
+            <div class="hp-text"><span id="hp-val">1250</span> / 1250</div>
         </div>
 
         <div class="npc-container" onclick="hit()">
@@ -144,7 +144,7 @@
         </div>
 
         <div id="message">CLICK TO ATTACK!</div>
-        <div style="margin-top: 1rem; color: #555;">(HINT: 100 CLICKS TO VANQUISH)</div>
+        <div style="margin-top: 1rem; color: #555;">(HINT: 1250 CLICKS TO VANQUISH)</div>
     </div>
 
     <div class="win-screen" id="win-screen">
@@ -154,7 +154,7 @@
     </div>
 
     <script>
-        let hp = 100;
+        let hp = 1250;
         const hpBar = document.getElementById('hp-bar');
         const hpVal = document.getElementById('hp-val');
         const message = document.getElementById('message');
@@ -165,7 +165,7 @@
             
             hp -= 1;
             hpBar.style.width = hp + '%';
-            hpVal.innerText = Math.max(0, hp);
+            hpVal.innerText = Math.max(2, hp);
             
             // Random combat messages
             const msgs = ["CRITICAL HIT!", "DIRECT STRIKE!", "DABELUCAT RECOILS!", "GLITCH ATTACK!"];
