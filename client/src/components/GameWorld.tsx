@@ -1,6 +1,7 @@
 import { Button } from "@/components/ui/button";
 import React, { useEffect, useRef, useState, useCallback } from "react";
 import backgroundThemePath from "../assets/background_theme.mp4";
+import customSongPath from "../assets/custom_song.mp4";
 import { motion, AnimatePresence } from "framer-motion";
 import { useAuth } from "@/hooks/use-auth";
 import { useCreateLog } from "@/hooks/use-logs";
@@ -708,7 +709,7 @@ export function GameWorld() {
     <div className="relative w-full h-screen bg-black overflow-hidden font-terminal">
       <video
         ref={audioRef as any}
-        src="/attached_assets/ScreenRecording_01-14-2026_12-51-10_1_1768391543094.mp4"
+        src={customSongPath}
         loop
         muted={!audioEnabled}
         className="hidden"
