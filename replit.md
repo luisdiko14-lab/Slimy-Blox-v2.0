@@ -39,6 +39,8 @@
 - **🔄 Redirection**: Terminated/Kicked sessions redirect to custom static pages (`kicked.html`, `killed.html`) in the `public/` directory.
 
 ## 📅 Recent Architectural Changes
+- **🗓️ 2026-01-14**: Integrated interactive audio system with "No batidao" custom song and retro playlist.
+- **🗓️ 2026-01-14**: Implemented strict input validation for admin commands (/speed, /size) and improved WebSocket error logging.
 - **🗓️ 2026-01-13**: Added background music credits for NoCallerId (YouTube).
 - **🗓️ 2026-01-11**: Implemented multi-target kick/kill logic with reason-based redirection.
 - **🗓️ 2026-01-11**: Upgraded loading screen to `ADMIN_OS` boot sequence with terminal logs.
