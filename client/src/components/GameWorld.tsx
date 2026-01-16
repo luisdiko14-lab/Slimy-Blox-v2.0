@@ -219,6 +219,13 @@ export function GameWorld() {
     }
     setShowCustomRankPrompt(false);
     
+    // Check if we should skip the server browser
+    const urlParams = new URLSearchParams(window.location.search);
+    if (urlParams.has('ip')) {
+      // Already on /game with IP, just stay here
+      return;
+    }
+
     // Redirect to fake server browser
     window.location.href = "/servers.html";
   };

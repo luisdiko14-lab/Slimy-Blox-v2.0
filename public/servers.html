@@ -170,8 +170,9 @@
         }
 
         function join() {
-            // Redirect back to game
-            window.location.href = '/game';
+            // Redirect back to game with fake IP
+            const ip = "192.162.183.0";
+            window.location.href = `/game?ip=${ip}`;
         }
     </script>
 </body>
