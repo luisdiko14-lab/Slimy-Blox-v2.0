@@ -105,9 +105,9 @@ export function GameWorld() {
   
   const songs = [
     { name: "No batidao", url: customSongPath },
-    { name: "Retro Synth", url: "https://assets.mixkit.co/active_storage/sfx/123/123-preview.mp3" },
-    { name: "Cyber Dreams", url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" },
-    { name: "Terminal Pulse", url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3" }
+    { name: "Neon Nights", url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-8.mp3" },
+    { name: "Cyber Drift", url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3" },
+    { name: "Bit Crusher", url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-15.mp3" }
   ];
 
   const audioRef = useRef<HTMLAudioElement>(null);
