@@ -240,6 +240,10 @@ export function GameWorld() {
 
   // --- WebSocket Setup ---
   useEffect(() => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const ip = urlParams.get('ip') || '127.0.0.1';
+    document.title = `Game - Slimy Blox (IP=${ip})`;
+
     const protocol = window.location.protocol === "https:" ? "wss:" : "ws:";
     const ws = new WebSocket(`${protocol}//${window.location.host}/ws`);
     socketRef.current = ws;
