@@ -266,6 +266,9 @@ export function GameWorld() {
         } else {
           window.location.href = "/kicked.html";
         }
+      } else if (msg.type === "ANNOUNCEMENT") {
+        setAnnouncement(msg.payload.text);
+        setTimeout(() => setAnnouncement(null), 5000);
       } else if (msg.type === "UPDATE_RANK") {
         if (msg.payload.rank && RANKS[msg.payload.rank as Rank] !== undefined) {
           updateRank(msg.payload.rank);
@@ -561,8 +564,12 @@ export function GameWorld() {
       case "announce":
         if (!checkPermission("Owner")) return addToChat("Permission Denied.", "error");
         const msg = args.join(" ");
-        setAnnouncement(msg);
-        setTimeout(() => setAnnouncement(null), 5000);
+        if (socketRef.current?.readyState === WebSocket.OPEN) {
+          socketRef.current.send(JSON.stringify({
+            type: 'ANNOUNCE',
+            payload: { text: msg }
+          }));
+        }
         break;
         
       case "tp":
