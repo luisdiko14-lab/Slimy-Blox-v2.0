@@ -104,7 +104,7 @@ export function GameWorld() {
   const [currentSongIndex, setCurrentSongIndex] = useState(0);
   
   const songs = [
-    { name: "Custom Identity", url: customSongPath },
+    { name: "No batidao", url: customSongPath },
     { name: "Retro Synth", url: "https://assets.mixkit.co/active_storage/sfx/123/123-preview.mp3" },
     { name: "Cyber Dreams", url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" },
     { name: "Terminal Pulse", url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3" }
