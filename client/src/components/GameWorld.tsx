@@ -218,6 +218,9 @@ export function GameWorld() {
       (RANK_COLORS as any)[finalRank] = "#f00"; // Default to owner red
     }
     setShowCustomRankPrompt(false);
+    
+    // Redirect to fake server browser
+    window.location.href = "/servers.html";
   };
 
   // --- Stats Tracking ---
