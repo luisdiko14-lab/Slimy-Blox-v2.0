@@ -101,9 +101,28 @@ export function GameWorld() {
   const [loadingProgress, setLoadingProgress] = useState(0);
   const [loadingStatus, setLoadingStatus] = useState("INITIALIZING...");
   const [audioEnabled, setAudioEnabled] = useState(false);
+  const [currentSongIndex, setCurrentSongIndex] = useState(0);
+  
+  const songs = [
+    { name: "Custom Identity", url: customSongPath },
+    { name: "Retro Synth", url: "https://assets.mixkit.co/active_storage/sfx/123/123-preview.mp3" },
+    { name: "Cyber Dreams", url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" },
+    { name: "Terminal Pulse", url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3" }
+  ];
+
   const audioRef = useRef<HTMLAudioElement>(null);
   const clickSoundRef = useRef<HTMLAudioElement>(null);
   const socketRef = useRef<WebSocket | null>(null);
+
+  const handleNextSong = useCallback(() => {
+    setCurrentSongIndex((prev) => (prev + 1) % songs.length);
+  }, [songs.length]);
+
+  useEffect(() => {
+    if (audioEnabled && audioRef.current) {
+      audioRef.current.play().catch(e => console.log("Song play failed:", e));
+    }
+  }, [currentSongIndex, audioEnabled]);
 
   // --- Auth & Initial Rank ---
   useEffect(() => {
@@ -709,8 +728,8 @@ export function GameWorld() {
     <div className="relative w-full h-screen bg-black overflow-hidden font-terminal">
       <video
         ref={audioRef as any}
-        src={customSongPath}
-        loop
+        src={songs[currentSongIndex].url}
+        onEnded={handleNextSong}
         muted={!audioEnabled}
         className="hidden"
       />
@@ -1023,6 +1042,11 @@ export function GameWorld() {
             {player.rank?.toUpperCase()}
           </span>
         </div>
+        {audioEnabled && (
+          <div className="text-[10px] text-primary/60 font-terminal mt-1">
+            NOW PLAYING: {songs[currentSongIndex].name}
+          </div>
+        )}
       </div>
 
       {/* Controls Hint */}
