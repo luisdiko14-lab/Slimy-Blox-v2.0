@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ADMIN WORLD - PREMIUM ACCESS</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            background-color: #000;
+            color: #0f0;
+            font-family: 'Share Tech Mono', monospace;
+            overflow-x: hidden;
+        }
+        .retro-container {
+            border: 2px solid #0f0;
+            box-shadow: 0 0 20px rgba(0, 255, 0, 0.2);
+            background: rgba(0, 0, 0, 0.9);
+        }
+        .glitch-text {
+            text-shadow: 2px 0 #f0f, -2px 0 #0ff;
+        }
+        .btn-premium {
+            background: #0f0;
+            color: #000;
+            font-weight: bold;
+            transition: all 0.3s;
+        }
+        .btn-premium:hover {
+            background: #fff;
+            box-shadow: 0 0 30px #0f0;
+            transform: scale(1.05);
+        }
+        .crt::before {
+            content: " ";
+            display: block;
+            position: absolute;
+            top: 0; left: 0; bottom: 0; right: 0;
+            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
+            z-index: 2;
+            background-size: 100% 2px, 3px 100%;
+            pointer-events: none;
+        }
+    </style>
+</head>
+<body class="crt p-8">
+    <div class="max-w-4xl mx-auto">
+        <header class="mb-12 text-center">
+            <h1 class="text-6xl font-bold mb-4 glitch-text" style="font-family: 'Orbitron', sans-serif;">PREMIUM SHOP</h1>
+            <p class="text-xl text-[#0f0]/60">[ SYSTEM_OVERRIDE_ENABLED ]</p>
+        </header>
+
+        <div class="grid md:grid-cols-3 gap-8">
+            <!-- Music Plan -->
+            <div class="retro-container p-6 flex flex-col justify-between">
+                <div>
+                    <h2 class="text-2xl font-bold mb-4 text-[#0f0]">MUSIC_PLAN</h2>
+                    <p class="text-4xl font-bold mb-6">$5<span class="text-sm">/LIFETIME</span></p>
+                    <ul class="space-y-2 text-sm text-[#0f0]/80">
+                        <li>> UNLOCK CUSTOM PLAYLISTS</li>
+                        <li>> BACKGROUND AUDIO CONTROL</li>
+                        <li>> NO_ADS PROTOCOL</li>
+                    </ul>
+                </div>
+                <button class="btn-premium w-full mt-8 p-3" onclick="window.location.href='/buying.html?plan=music_plan'">PURCHASE</button>
+            </div>
+
+            <!-- All Commands -->
+            <div class="retro-container p-6 border-[#f0f] shadow-[#f0f]/20 flex flex-col justify-between relative scale-105 border-4">
+                <div class="absolute -top-4 left-1/2 -translate-x-1/2 bg-[#f0f] text-black text-xs px-4 py-1 font-bold">MOST POPULAR</div>
+                <div>
+                    <h2 class="text-2xl font-bold mb-4 text-[#f0f]">ULTIMATE_POWER</h2>
+                    <p class="text-4xl font-bold mb-6 text-[#f0f]">$5000<span class="text-sm">/LIFETIME</span></p>
+                    <ul class="space-y-2 text-sm text-[#f0f]/80">
+                        <li>> ALL ADMIN COMMANDS UNLOCKED</li>
+                        <li>> /BAN /KICK /NUKE /BYPASS</li>
+                        <li>> SERVER_OWNER_STATUS</li>
+                        <li>> GLOBAL_ANNOUNCE_PRIORITY</li>
+                    </ul>
+                </div>
+                <button class="btn-premium w-full mt-8 p-3 !bg-[#f0f]" onclick="window.location.href='/buying.html?plan=ultimate_power'">ACQUIRE POWER</button>
+            </div>
+
+            <!-- Custom Ranks -->
+            <div class="retro-container p-6 flex flex-col justify-between">
+                <div>
+                    <h2 class="text-2xl font-bold mb-4 text-cyan-400">RANK_CUSTOMIZER</h2>
+                    <p class="text-4xl font-bold mb-6 text-cyan-400">$15<span class="text-sm">/LIFETIME</span></p>
+                    <ul class="space-y-2 text-sm text-cyan-400/80">
+                        <li>> CUSTOM RANK TEXT</li>
+                        <li>> UNIQUE GLOW EFFECTS</li>
+                        <li>> EXCLUSIVE COLOR PALETTES</li>
+                    </ul>
+                </div>
+                <button class="btn-premium w-full mt-8 p-3 !bg-cyan-400" onclick="window.location.href='/buying.html?plan=rank_customizer'">CUSTOMIZE</button>
+            </div>
+        </div>
+
+        <div class="mt-12 text-center">
+            <button class="text-[#0f0]/40 hover:text-[#0f0] transition-colors" onclick="window.history.back()">[ RETURN_TO_TERMINAL ]</button>
+        </div>
+    </div>
+</body>
+</html>

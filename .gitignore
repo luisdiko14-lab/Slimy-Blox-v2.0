@@ -1,0 +1,55 @@
+# =========================
+# 🔐 SECRETS & ENV
+# =========================
+.env
+.env.*
+.replit
+*.secret
+*.secrets
+*.key
+*.pem
+*.token
+
+# =========================
+# 📦 NODE / JS
+# =========================
+node_modules/
+npm-debug.log*
+yarn-error.log*
+pnpm-lock.yaml
+
+# =========================
+# ⚙️ BUILD OUTPUTS
+# =========================
+dist/
+build/
+out/
+coverage/
+
+# =========================
+# 🧠 CACHE / TEMP
+# =========================
+.cache/
+.tmp/
+temp/
+*.log
+
+# =========================
+# 🧪 TEST
+# =========================
+.vscode/
+.idea/
+*.swp
+
+# =========================
+# 🖥️ OS FILES
+# =========================
+.DS_Store
+Thumbs.db
+
+# =========================
+# 🔁 REPLIT
+# =========================
+.replit
+.replit.bak
+.replit.lock

@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ADMIN WORLD - SECURE_CHECKOUT</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            background-color: #000;
+            color: #0f0;
+            font-family: 'Share Tech Mono', monospace;
+            overflow-x: hidden;
+        }
+        .retro-container {
+            border: 2px solid #0f0;
+            box-shadow: 0 0 20px rgba(0, 255, 0, 0.2);
+            background: rgba(0, 0, 0, 0.9);
+        }
+        .crt::before {
+            content: " ";
+            display: block;
+            position: absolute;
+            top: 0; left: 0; bottom: 0; right: 0;
+            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
+            z-index: 2;
+            background-size: 100% 2px, 3px 100%;
+            pointer-events: none;
+        }
+        .loading-bar {
+            width: 0%;
+            height: 100%;
+            background: #0f0;
+            transition: width 0.1s linear;
+        }
+    </style>
+</head>
+<body class="crt flex items-center justify-center min-h-screen p-4">
+    <div class="max-w-md w-full retro-container p-8 text-center">
+        <h1 id="plan-title" class="text-3xl font-bold mb-4 italic tracking-widest text-[#0f0]" style="font-family: 'Orbitron', sans-serif;">INITIALIZING_ORDER</h1>
+        
+        <div id="checkout-phase">
+            <p class="text-sm text-[#0f0]/60 mb-8 font-mono">ESTABLISHING SECURE CONNECTION TO BANKING_API...</p>
+            
+            <div class="h-4 w-full bg-[#0f0]/20 border border-[#0f0] mb-8 relative overflow-hidden">
+                <div id="progress" class="loading-bar"></div>
+            </div>
+
+            <div id="status-logs" class="text-left font-mono text-xs space-y-1 h-32 overflow-hidden opacity-50">
+                <div>> AUTHENTICATING_SESSION...</div>
+            </div>
+        </div>
+
+        <div id="success-phase" class="hidden">
+            <div class="text-6xl mb-4 text-[#0f0] animate-bounce">✓</div>
+            <h2 class="text-2xl font-bold mb-4">PURCHASE_COMPLETE</h2>
+            <p class="text-sm text-[#0f0]/60 mb-8 font-mono">ACCESS PROTOCOLS HAVE BEEN UPDATED ON YOUR ACCOUNT.</p>
+            <button onclick="window.location.href='/game'" class="w-full bg-[#0f0] text-black font-bold p-3 hover:bg-white transition-all">RETURN_TO_GAME</button>
+        </div>
+    </div>
+
+    <script>
+        const urlParams = new URLSearchParams(window.location.search);
+        const plan = urlParams.get('plan') || 'UNKNOWN_MODULE';
+        document.getElementById('plan-title').innerText = `ORDER: ${plan.toUpperCase()}`;
+
+        const logs = [
+            "> HANDSHAKE_SUCCESSFUL",
+            "> ENCRYPTING_TRANSACTION_DATA...",
+            "> TUNNELING_THROUGH_FIREWALL...",
+            "> VERIFYING_FUNDS_AVAILABILITY...",
+            "> AUTHORIZING_LICENSE_TRANSFER...",
+            "> MOUNTING_PREMIUM_MODULES...",
+            "> SYNCING_CLOUD_IDENTITY..."
+        ];
+
+        let currentLog = 0;
+        let progress = 0;
+        const progressEl = document.getElementById('progress');
+        const logsEl = document.getElementById('status-logs');
+
+        const interval = setInterval(() => {
+            progress += 1;
+            progressEl.style.width = `${progress}%`;
+
+            if (progress % 14 === 0 && currentLog < logs.length) {
+                const logDiv = document.createElement('div');
+                logDiv.innerText = logs[currentLog];
+                logsEl.appendChild(logDiv);
+                currentLog++;
+            }
+
+            if (progress >= 100) {
+                clearInterval(interval);
+                localStorage.setItem('user_plan', plan); // Persist plan
+                document.getElementById('checkout-phase').classList.add('hidden');
+                document.getElementById('success-phase').classList.remove('hidden');
+            }
+        }, 50);
+    </script>
+</body>
+</html>

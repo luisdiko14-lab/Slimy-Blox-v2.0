@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SERVER BROWSER - ADMIN WORLD</title>
+    <style>
+        @font-face {
+            font-family: 'Terminal';
+            src: url('https://fonts.cdnfonts.com/css/vcr-osd-mono') format('woff2');
+        }
+        body {
+            background: #000;
+            color: #0f0;
+            font-family: 'Courier New', Courier, monospace;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-col: center;
+            align-items: center;
+            min-height: 100vh;
+            text-transform: uppercase;
+            overflow: hidden;
+        }
+        .container {
+            width: 100%;
+            max-width: 800px;
+            border: 2px solid #0f0;
+            padding: 20px;
+            background: rgba(0, 20, 0, 0.9);
+            box-shadow: 0 0 20px rgba(0, 255, 0, 0.2);
+            position: relative;
+        }
+        .header {
+            border-bottom: 2px solid #0f0;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .server-list {
+            margin-bottom: 20px;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+        .server-item {
+            border: 1px solid #0f0;
+            padding: 10px;
+            margin-bottom: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        .server-item:hover {
+            background: rgba(0, 255, 0, 0.1);
+        }
+        .server-info {
+            display: flex;
+            flex-direction: column;
+        }
+        .ip {
+            font-size: 0.8em;
+            color: #0a0;
+        }
+        .create-btn {
+            background: #0f0;
+            color: #000;
+            border: none;
+            padding: 10px 20px;
+            font-weight: bold;
+            cursor: pointer;
+            font-family: inherit;
+        }
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.8);
+            justify-content: center;
+            align-items: center;
+            z-index: 100;
+        }
+        .modal-content {
+            background: #000;
+            border: 2px solid #0f0;
+            padding: 20px;
+            width: 300px;
+        }
+        input, select {
+            width: 100%;
+            background: #000;
+            color: #0f0;
+            border: 1px solid #0f0;
+            padding: 5px;
+            margin-bottom: 10px;
+            font-family: inherit;
+        }
+        .scanline {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
+            z-index: 1000;
+            background-size: 100% 2px, 3px 100%;
+            pointer-events: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="scanline"></div>
+    <div class="container">
+        <div class="header">
+            <span>[ SYSTEM SERVER BROWSER ]</span>
+            <button class="create-btn" onclick="showModal()">CREATE SERVER</button>
+        </div>
+        <div class="server-list" id="serverList">
+            <div class="server-item" onclick="join()">
+                <div class="server-info">
+                    <span>ADMIN_WORLD_01 (PUBLIC)</span>
+                    <span class="ip">IP: 192.162.183.0</span>
+                </div>
+                <span>[ 12/50 ]</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal" id="modal">
+        <div class="modal-content">
+            <h3>NEW INSTANCE</h3>
+            <input type="text" id="serverName" placeholder="SERVER NAME">
+            <input type="text" id="serverIp" value="192.162.183.0" placeholder="IP ADDRESS">
+            <select id="serverType">
+                <option value="PUBLIC">PUBLIC</option>
+                <option value="PRIVATE">PRIVATE</option>
+            </select>
+            <button class="create-btn" onclick="createServer()">INITIALIZE</button>
+            <button class="create-btn" style="background: #a00; color: #fff; margin-top: 5px;" onclick="hideModal()">CANCEL</button>
+        </div>
+    </div>
+
+    <script>
+        function showModal() { document.getElementById('modal').style.display = 'flex'; }
+        function hideModal() { document.getElementById('modal').style.display = 'none'; }
+        
+        function createServer() {
+            const name = document.getElementById('serverName').value || 'ADMIN_INST';
+            const ip = document.getElementById('serverIp').value;
+            const type = document.getElementById('serverType').value;
+            
+            const item = document.createElement('div');
+            item.className = 'server-item';
+            item.onclick = join;
+            item.innerHTML = `
+                <div class="server-info">
+                    <span>${name} (${type})</span>
+                    <span class="ip">IP: ${ip}</span>
+                </div>
+                <span>[ 1/50 ]</span>
+            `;
+            document.getElementById('serverList').appendChild(item);
+            hideModal();
+        }
+
+        function join() {
+            // Redirect back to game with fake IP
+            const ip = "192.162.183.0";
+            window.location.href = `/game?ip=${ip}`;
+        }
+    </script>
+</body>
+</html>
