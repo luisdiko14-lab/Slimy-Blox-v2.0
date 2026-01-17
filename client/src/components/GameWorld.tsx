@@ -105,12 +105,12 @@ export function GameWorld() {
   
   const songs = [
     { name: "No batidao", url: customSongPath 
-    
+    },
     { name: "Neon Nights", url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-8.mp3" },
     { name: "Cyber Drift", url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3" },
     { name: "Bit Crusher", url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-15.mp3" }
 
- const audioRef = useRef<HTMLAudioElement>(null);
+  const audioRef = useRef<HTMLAudioElement>(null);
   const clickSoundRef = useRef<HTMLAudioElement>(null);
   const socketRef = useRef<WebSocket | null>(null);
 
