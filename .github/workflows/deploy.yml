@@ -2,9 +2,9 @@ name: 🚀 Mega Ultra OP CI / CD
 
 on:
   push:
-    branches: ["main"]
+    branches: ["slimy"]
   pull_request:
-    branches: ["main"]
+    branches: ["slimy"]
   workflow_dispatch:
 
 permissions:
