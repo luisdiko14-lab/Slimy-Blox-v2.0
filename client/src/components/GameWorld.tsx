@@ -13,7 +13,7 @@ const MAP_WIDTH = 2000;
 const MAP_HEIGHT = 2000;
 
 // --- Types ---
-export type Rank = "Guest" | "Player" | "Moderator" | "Admin" | "SuperAdmin" | "Owner" | "Power Owner" | "Real Owner";
+export type Rank = "Guest" | "Player" | "Moderator" | "Admin" | "SuperAdmin" | "Owner" | "Power Owner" | "Real Owner" | "Original Owner";
 
 interface Position {
   x: number;

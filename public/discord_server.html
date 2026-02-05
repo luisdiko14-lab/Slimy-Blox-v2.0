@@ -1,38 +1,180 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Join Discord Support Server</title>
-  <style>
-    body {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-      background: #2c2f33;
-      margin: 0;
-      font-family: Arial, sans-serif;
-    }
-    .discord-button {
-      background-color: #5865F2;
-      color: white;
-      padding: 15px 30px;
-      font-size: 18px;
-      text-decoration: none;
-      border-radius: 8px;
-      transition: background-color 0.2s ease;
-    }
-    .discord-button:hover {
-      background-color: #4752c4;
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Discord Server Status</title>
+
+<style>
+:root {
+  --bg1:#020617;
+  --bg2:#0f172a;
+  --accent:#5865F2;
+  --glow:rgba(88,101,242,.6);
+}
+
+*{box-sizing:border-box}
+
+body{
+  margin:0;
+  min-height:100vh;
+  background:radial-gradient(circle at top,var(--bg2),var(--bg1));
+  font-family:"Segoe UI",Arial,sans-serif;
+  color:#fff;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+}
+
+.container{
+  display:flex;
+  gap:30px;
+  padding:30px;
+  background:rgba(15,23,42,.85);
+  backdrop-filter:blur(14px);
+  border-radius:20px;
+  box-shadow:0 0 60px var(--glow);
+  animation:float 6s ease-in-out infinite;
+}
+
+@keyframes float{
+  0%,100%{transform:translateY(0)}
+  50%{transform:translateY(-8px)}
+}
+
+.widget iframe{
+  border-radius:16px;
+  box-shadow:0 0 25px rgba(0,0,0,.6);
+}
+
+.info{
+  min-width:260px;
+}
+
+.info h1{
+  margin:0 0 10px;
+  font-size:24px;
+}
+
+.stats{
+  margin-top:15px;
+  display:grid;
+  gap:10px;
+}
+
+.stat{
+  display:flex;
+  justify-content:space-between;
+  padding:10px 14px;
+  border-radius:12px;
+  background:rgba(2,6,23,.6);
+  box-shadow:0 0 15px rgba(0,0,0,.4);
+}
+
+.dot{
+  width:10px;
+  height:10px;
+  border-radius:50%;
+  margin-right:8px;
+  display:inline-block;
+}
+
+.online{background:#22c55e}
+.idle{background:#facc15}
+.dnd{background:#ef4444}
+.offline{background:#64748b}
+
+.footer{
+  margin-top:20px;
+  font-size:12px;
+  color:#94a3b8;
+  text-align:center;
+}
+
+.footer span{
+  color:#8b9cff;
+  font-weight:600;
+}
+</style>
 </head>
+
 <body>
 
-  <a class="discord-button" href="https://discord.gg/knGPkvRHyr" target="_blank">
-    Join Discord Support Server
-  </a>
+<div class="container">
+
+  <!-- DISCORD IFRAME -->
+  <div class="widget">
+    <iframe
+      src="https://discord.com/widget?id=1460615558079840500&theme=dark"
+      width="350"
+      height="500"
+      allowtransparency="true"
+      frameborder="0"
+      sandbox="allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts">
+    </iframe>
+  </div>
+
+  <!-- SERVER INFO -->
+  <div class="info">
+    <h1 id="server-name">Discord Server</h1>
+    <p id="online-count">Loading status…</p>
+
+    <div class="stats">
+      <div class="stat">
+        <span><span class="dot online"></span>Online</span>
+        <strong id="online">0</strong>
+      </div>
+      <div class="stat">
+        <span><span class="dot idle"></span>Idle</span>
+        <strong id="idle">0</strong>
+      </div>
+      <div class="stat">
+        <span><span class="dot dnd"></span>DND</span>
+        <strong id="dnd">0</strong>
+      </div>
+      <div class="stat">
+        <span><span class="dot offline"></span>Offline</span>
+        <strong id="offline">0</strong>
+      </div>
+    </div>
+
+    <div class="footer">
+      Powered by <span>Slimy Blox v14.2</span>
+    </div>
+  </div>
+
+</div>
+
+<script>
+fetch("https://discord.com/api/guilds/1460615558079840500/widget.json")
+  .then(res => res.json())
+  .then(data => {
+    document.getElementById("server-name").textContent = data.name;
+
+    let online = 0, idle = 0, dnd = 0;
+
+    data.members.forEach(m => {
+      if (m.status === "online") online++;
+      if (m.status === "idle") idle++;
+      if (m.status === "dnd") dnd++;
+    });
+
+    const total = data.presence_count;
+    const offline = Math.max(total - (online + idle + dnd), 0);
+
+    document.getElementById("online").textContent = online;
+    document.getElementById("idle").textContent = idle;
+    document.getElementById("dnd").textContent = dnd;
+    document.getElementById("offline").textContent = offline;
+
+    document.getElementById("online-count").textContent =
+      `Total online: ${total}`;
+  })
+  .catch(() => {
+    document.getElementById("online-count").textContent =
+      "Failed to load Discord data";
+  });
+</script>
 
 </body>
 </html>
